@@ -1,11 +1,12 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
+import Pages from './pages/Pages';
 
 function App() {
   return (
     <>
-      <div>rem</div>
       <GlobalStyle />
+      <Pages />
     </>
   );
 }
