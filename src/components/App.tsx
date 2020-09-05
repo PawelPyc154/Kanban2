@@ -1,11 +1,13 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import Pages from './pages/Pages';
+import Navigation from './layout/navigation/Navigation';
 
 function App() {
   return (
     <>
       <GlobalStyle />
+      <Navigation />
       <Pages />
     </>
   );
