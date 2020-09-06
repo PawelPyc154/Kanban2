@@ -1,15 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Draggable } from 'react-beautiful-dnd';
 
-export interface KanbanTaskProps {}
+export interface KanbanTaskProps {
+  task: { id: string; name: string };
+  index: number;
+}
 
-const KanbanTask: React.FC<KanbanTaskProps> = () => <Container>KanbanTask</Container>;
+const KanbanTask: React.FC<KanbanTaskProps> = ({ task, index }) => (
+  <Draggable draggableId={task.id} index={index}>
+    {(provided, snapshot) => (
+      <Container
+        className="task"
+        {...provided.dragHandleProps}
+        {...provided.draggableProps}
+        ref={provided.innerRef}
+        inDragging={snapshot.isDragging}
+      >
+        {task.name}
+      </Container>
+    )}
+  </Draggable>
+);
 
 export default KanbanTask;
-
-const Container = styled.section`
+interface ContainerProps {
+  inDragging: boolean;
+}
+const Container = styled.article<ContainerProps>`
+  flex-shrink: 0;
   height: 70px;
-  background-color: #202020;
+  background-color: ${({ inDragging }) => (inDragging ? '#313131' : '#202020')};
   padding: 5px;
   &:hover {
     background-color: #313131;
