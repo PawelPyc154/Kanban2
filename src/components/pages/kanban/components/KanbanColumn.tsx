@@ -7,33 +7,51 @@ export interface KanbanColumnProps {
   column: {
     id: string;
     name: string;
-    tasks: { id: string; name: string }[];
+    tasksOrder: string[];
   };
 }
 
-const KanbanColumn: React.FC<KanbanColumnProps> = ({ column }) => (
-  <Container>
-    {/* <Wrapper> */}
-    <Header>
-      <InputNameCard type="text" placeholder="Filter By Name" />
-    </Header>
-    <Droppable droppableId={column.id}>
-      {(provided) => (
-        <>
-          <TasksWrapper {...provided.droppableProps} ref={provided.innerRef}>
-            {column.tasks.map((task, index) => (
-              <KanbanTask key={task.id} task={task} index={index} />
-            ))}
+const KanbanColumn: React.FC<KanbanColumnProps> = ({ column }) => {
+  const tasks = [
+    { id: '0', name: 'task1' },
+    { id: '1', name: 'task2' },
+    { id: '2', name: 'task2' },
+    { id: '3', name: 'task3' },
+    { id: '4', name: 'task4' },
+    { id: '5', name: 'task5' },
+    { id: '6', name: 'task6' },
+    { id: '7', name: 'task7' },
+    { id: '8', name: 'task8' },
+    { id: '9', name: 'task9' },
+    { id: '10', name: 'task10' },
+    { id: '11', name: 'task11' },
+    { id: '12', name: 'task12' },
+    { id: '13', name: 'task13' },
+    { id: '14', name: 'task14' },
+  ];
 
-            {provided.placeholder}
-            <AddNewTask placeholder="Add new task" />
-          </TasksWrapper>
-        </>
-      )}
-    </Droppable>
-    {/* </Wrapper> */}
-  </Container>
-);
+  return (
+    <Container>
+      <Header>
+        <InputNameCard type="text" placeholder="Filter By Name" />
+      </Header>
+      <Droppable droppableId={column.id}>
+        {(provided) => (
+          <>
+            <TasksWrapper {...provided.droppableProps} ref={provided.innerRef}>
+              {column.tasksOrder
+                .map((task) => tasks.find(({ id }) => id === task))
+                .map((item, index) => item && <KanbanTask key={item.id} task={item} index={index} />)}
+
+              {provided.placeholder}
+              <AddNewTask placeholder="Add new task" />
+            </TasksWrapper>
+          </>
+        )}
+      </Droppable>
+    </Container>
+  );
+};
 
 export default KanbanColumn;
 
