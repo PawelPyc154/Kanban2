@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import KanbanCard from './components/KanbanCard';
+import KanbanCard from './components/KanbanColumn';
 
 export interface KanbanProps {}
 

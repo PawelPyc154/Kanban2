@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import KanbanItem from './KanbanItem';
+import KanbanItem from './KanbanTask';
 
-export interface KanbanCardProps {}
+export interface KanbanColumnProps {}
 
-const KanbanCard: React.FC<KanbanCardProps> = () => {
+const KanbanColumn: React.FC<KanbanColumnProps> = () => {
   const items = ['test1', 'test2', 'test3', 'test4', 'test5'];
   return (
     <Container>
@@ -21,7 +21,7 @@ const KanbanCard: React.FC<KanbanCardProps> = () => {
   );
 };
 
-export default KanbanCard;
+export default KanbanColumn;
 
 const Container = styled.div`
   width: 300px;

@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export interface KanbanItemProps {}
+export interface KanbanTaskProps {}
 
-const KanbanItem: React.FC<KanbanItemProps> = () => <Container>KanbanItem</Container>;
+const KanbanTask: React.FC<KanbanTaskProps> = () => <Container>KanbanTask</Container>;
 
-export default KanbanItem;
+export default KanbanTask;
 
 const Container = styled.section`
   height: 70px;
