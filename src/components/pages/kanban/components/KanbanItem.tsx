@@ -9,7 +9,7 @@ export default KanbanItem;
 
 const Container = styled.section`
   height: 70px;
-  background-color: #252525;
+  background-color: #202020;
   padding: 5px;
   &:hover {
     background-color: #313131;

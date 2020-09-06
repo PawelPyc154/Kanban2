@@ -51,7 +51,7 @@ const InputNameCard = styled.input`
   width: calc(100%);
   height: 40px;
   border: none;
-  background-color: #202020;
+  background-color: #252525;
   color: white;
   font-size: 20px;
   padding: 10px;
