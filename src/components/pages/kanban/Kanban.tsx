@@ -26,30 +26,26 @@ const Kanban: React.FC<KanbanProps> = () => {
   ];
   const [columns, setColumns] = useState(initialColumns);
 
-  const onDragEnd = (result: DropResult): any => {
-    const { source, draggableId, destination } = result;
-    console.log(result);
-
+  const onDragEnd = ({ source, draggableId, destination }: DropResult): any => {
     if (!destination) return;
-    // if (destination.droppableId === source.droppableId && destination.index === source.index) return;
     setColumns((prev) =>
       prev
-        .map((item) =>
-          item.id !== source.droppableId
-            ? item
-            : { ...item, tasksOrder: item.tasksOrder.filter((taskId) => taskId !== draggableId) },
-        )
-        .map((item) => item),
-    );
-    setColumns((prev) =>
-      prev.map((item) => {
-        if (item.id === destination.droppableId) {
-          const tasksOrderCopy = [...item.tasksOrder];
-          tasksOrderCopy.splice(destination.index, 0, draggableId);
-          return { ...item, tasksOrder: tasksOrderCopy };
-        }
-        return item;
-      }),
+        // remove task
+        .map((item) => {
+          if (item.id === source.droppableId) {
+            return { ...item, tasksOrder: item.tasksOrder.filter((taskId) => taskId !== draggableId) };
+          }
+          return item;
+        })
+        // add task
+        .map((item) => {
+          if (item.id === destination.droppableId) {
+            const tasksOrderCopy = [...item.tasksOrder];
+            tasksOrderCopy.splice(destination.index, 0, draggableId);
+            return { ...item, tasksOrder: tasksOrderCopy };
+          }
+          return item;
+        }),
     );
   };
 
