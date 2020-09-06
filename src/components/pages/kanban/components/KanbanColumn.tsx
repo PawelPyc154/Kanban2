@@ -8,10 +8,12 @@ export interface KanbanColumnProps {
     id: string;
     name: string;
     tasksOrder: string[];
+    columnBlocked: string[];
   };
+  startColumn: string;
 }
 
-const KanbanColumn: React.FC<KanbanColumnProps> = ({ column }) => {
+const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, startColumn }) => {
   const tasks = [
     { id: '0', name: 'task1' },
     { id: '1', name: 'task2' },
@@ -35,7 +37,7 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ column }) => {
       <Header>
         <InputNameCard type="text" placeholder="Filter By Name" />
       </Header>
-      <Droppable droppableId={column.id}>
+      <Droppable droppableId={column.id} isDropDisabled={column.columnBlocked.includes(startColumn)}>
         {(provided) => (
           <>
             <TasksWrapper {...provided.droppableProps} ref={provided.innerRef}>
