@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { DragDropContext, DropResult, DragStart } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult, DragStart, Droppable } from 'react-beautiful-dnd';
 import produce from 'immer';
-import KanbanColumn from './components/KanbanColumn';
+import KanbanColumn from './components/Column';
 
 export interface KanbanProps {}
 
 const Kanban: React.FC<KanbanProps> = () => {
   const initialColumns = [
     {
-      id: '0',
+      id: 'column-1',
       name: 'ToDo',
       tasksOrder: ['0', '1', '2', '3', '4', '5', '6', '7'],
       columnBlocked: ['1'],
     },
     {
-      id: '1',
+      id: 'column-2',
       name: 'ToDo',
       tasksOrder: [],
       columnBlocked: [],
     },
     {
-      id: '2',
+      id: 'column-3',
       name: 'ToDo',
       tasksOrder: [],
       columnBlocked: [],
@@ -35,29 +35,49 @@ const Kanban: React.FC<KanbanProps> = () => {
     setStartColumn(provided.source.droppableId);
   };
 
-  const onDragEnd = ({ source, draggableId, destination }: DropResult): any => {
+  const onDragEnd = ({ source, draggableId, destination, type }: DropResult): any => {
     if (!destination) return;
-    setColumns((prev) =>
-      produce(prev, (draft) => {
-        // remove task
-        const startColumnIndex = draft.findIndex((column) => column.id === source.droppableId);
-        draft[startColumnIndex].tasksOrder = draft[startColumnIndex].tasksOrder.filter((item) => item !== draggableId);
-        // add task
-        const endColumnIndex = draft.findIndex((column) => column.id === destination.droppableId);
-        const copy = [...draft[endColumnIndex].tasksOrder];
-        copy.splice(destination.index, 0, draggableId);
-        draft[endColumnIndex].tasksOrder = copy;
-      }),
-    );
+    if (type === 'column') {
+      setColumns((prev) =>
+        produce(prev, (draft) => {
+          const copyColumn = draft[source.index];
+          // remove task
+          draft.splice(source.index, 1);
+          // add task
+          draft.splice(destination.index, 0, copyColumn);
+        }),
+      );
+    }
+    if (type === 'task') {
+      setColumns((prev) =>
+        produce(prev, (draft) => {
+          // remove task
+          const startColumnIndex = draft.findIndex((column) => column.id === source.droppableId);
+          draft[startColumnIndex].tasksOrder = draft[startColumnIndex].tasksOrder.filter(
+            (item) => item !== draggableId,
+          );
+          // add task
+          const endColumnIndex = draft.findIndex((column) => column.id === destination.droppableId);
+          const copyTasksOrder = [...draft[endColumnIndex].tasksOrder];
+          copyTasksOrder.splice(destination.index, 0, draggableId);
+          draft[endColumnIndex].tasksOrder = copyTasksOrder;
+        }),
+      );
+    }
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      <Main>
-        {columns.map((column) => (
-          <KanbanColumn key={column.id} column={column} startColumn={startColumn} />
-        ))}
-      </Main>
+      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+        {(provided) => (
+          <Main {...provided.droppableProps} ref={provided.innerRef}>
+            {columns.map((column, index) => (
+              <KanbanColumn key={column.id} column={column} startColumn={startColumn} indexColumn={index} />
+            ))}
+            {provided.placeholder}
+          </Main>
+        )}
+      </Droppable>
     </DragDropContext>
   );
 };

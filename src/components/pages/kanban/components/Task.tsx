@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
-export interface KanbanTaskProps {
+export interface TaskProps {
   task: { id: string; name: string };
   index: number;
 }
 
-const KanbanTask: React.FC<KanbanTaskProps> = ({ task, index }) => (
+const Task: React.FC<TaskProps> = ({ task, index }) => (
   <Draggable draggableId={task.id} index={index}>
     {(provided, snapshot) => (
       <Container
@@ -23,7 +23,8 @@ const KanbanTask: React.FC<KanbanTaskProps> = ({ task, index }) => (
   </Draggable>
 );
 
-export default KanbanTask;
+export default Task;
+
 interface ContainerProps {
   inDragging: boolean;
 }
