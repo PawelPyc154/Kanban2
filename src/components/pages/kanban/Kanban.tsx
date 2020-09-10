@@ -28,7 +28,6 @@ const Main = styled.main`
   grid-auto-flow: column;
   grid-gap: 10px;
   height: 100vh;
-
   &::-webkit-scrollbar {
     height: 8px;
   }
