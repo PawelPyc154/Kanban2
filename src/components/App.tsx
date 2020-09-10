@@ -30,6 +30,15 @@ body {
   box-sizing: border-box;
   background-color: #181818;
   font-size: 16px;
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #252525;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: grey;
+  }
 }
 input:focus,
 select:focus,
